@@ -38,9 +38,10 @@
 
       <h1 class="text-xl md:text-2xl font-extrabold">School Media Archive</h1>
 
-      <a href="#" class="hidden md:inline-block bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition">
+      <label for="mediaUpload" class="hidden md:inline-block bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition cursor-pointer">
         Upload Media
-      </a>
+      </label>
+      <input type="file" id="mediaUpload" class="hidden" accept="image/*,video/*" multiple>
     </div>
   </header>
 
@@ -206,6 +207,16 @@
     }
 
     filterBtn.addEventListener('click', applyFilters);
+
+    const mediaUpload = document.getElementById('mediaUpload');
+
+    mediaUpload.addEventListener('change', function () {
+      const files = Array.from(this.files);
+
+      if (!files.length) return;
+
+      alert(`${files.length} file${files.length !== 1 ? 's' : ''} selected successfully. Ready for upload integration.`);
+    });
   </script>
 </body>
 </html>
