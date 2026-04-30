@@ -163,5 +163,49 @@
     <p>© 2026 Bright Future Academy. All Rights Reserved.</p>
   </footer>
 
+  <script>
+    const searchInput = document.querySelector('input[type="text"]');
+    const selects = document.querySelectorAll('select');
+    const filterBtn = document.querySelector('button');
+    const cards = document.querySelectorAll('.gallery-card');
+
+    function applyFilters() {
+      const searchValue = searchInput.value.toLowerCase().trim();
+      const yearValue = selects[0].value;
+      const mediaValue = selects[1].value;
+
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.querySelector('h4').textContent.toLowerCase();
+        const meta = card.querySelector('span').textContent.toLowerCase();
+
+        const isVideo = title.includes('highlights') || card.innerHTML.includes('▶');
+        const isPhoto = !isVideo;
+
+        let matchesSearch = !searchValue || title.includes(searchValue) || meta.includes(searchValue);
+        let matchesYear = yearValue === 'Filter by Year' || meta.includes(yearValue.toLowerCase());
+        let matchesMedia =
+          mediaValue === 'All Media' ||
+          (mediaValue === 'Videos' && isVideo) ||
+          (mediaValue === 'Photos' && isPhoto) ||
+          (mediaValue === 'Events');
+
+        if (matchesSearch && matchesYear && matchesMedia) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      const counter = document.querySelector('.text-slate-500.font-medium');
+      if (counter) {
+        counter.textContent = `Showing ${visibleCount} item${visibleCount !== 1 ? 's' : ''}`;
+      }
+    }
+
+    filterBtn.addEventListener('click', applyFilters);
+  </script>
 </body>
 </html>
